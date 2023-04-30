@@ -186,6 +186,7 @@ infoLang.className = "info";
 infoLang.textContent = `Current language: ${currentLang}`;
 
 const textArea = document.createElement("textarea");
+textArea.rows = "6";
 textArea.className = "text";
 
 page.appendChild(title);
@@ -203,7 +204,7 @@ keyboard.appendChild(keysContainer);
 function createKeysButton(keys, row) {
   keys.map((key) => {
     const keyButton = document.createElement("div");
-    keyButton.classList = "keyboard__button";
+    keyButton.classList = `keyboard__button key-${key.lowerCase.toLowerCase()}`;
     keyButton.textContent = capsLock ? key.upperCase : key.lowerCase;
     row.appendChild(keyButton);
   });

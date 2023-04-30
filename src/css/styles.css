@@ -1,0 +1,104 @@
+.page {
+  background-color: rgb(31, 79, 119);
+  width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.title {
+  margin-top: 40px;
+  text-align: center;
+  font-family: Verdana, sans-serif;
+  color: rgb(118, 204, 204);
+}
+
+.info {
+  font-family: Tahoma, sans-serif;
+  color: rgb(229, 255, 252);
+  margin: 10px 20px;
+}
+
+.text {
+  margin: 20px 20px;
+  border-radius: 10px;
+}
+
+.keyboard__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.keyboard__keys-container {
+  user-select: none;
+  width: 960px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.keyboard__row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.keyboard__button {
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+  border: 1px solid rgb(101, 155, 155);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  transition: top 0.5s;
+}
+
+.keyboard__button:hover {
+  background-color: rgba(101, 155, 155, 0.3);
+}
+
+.keyboard__button:active {
+  position: relative;
+  top: 3px;
+  background-color: rgba(101, 155, 155, 0.15);
+  -webkit-box-shadow: 0px -3px 5px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px -3px 5px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px -3px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.key-backspace {
+  min-width: 130px;
+}
+
+.key-tab,
+.key-del,
+.key-win,
+.key-alt,
+.key-ctrl {
+  min-width: 70px;
+}
+
+.key-capslock {
+  min-width: 110px;
+}
+
+.key-enter {
+  min-width: 100px;
+}
+
+.key-shift {
+  min-width: 128px;
+}
+
+.key- {
+  min-width: 368px;
+}
