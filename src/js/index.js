@@ -1,5 +1,6 @@
 let currentLang = "ENG"; //TODO Get language from OS
 let capsLock = false;
+let shift = false;
 
 const page = document.querySelector("body");
 page.className = "page";
@@ -188,7 +189,6 @@ infoLang.className = "info";
 infoLang.textContent = `Current language: ${currentLang}`;
 
 const textArea = document.createElement("textarea");
-textArea.autofocus = true;
 textArea.rows = "6";
 textArea.className = "text";
 
@@ -205,14 +205,24 @@ const keysContainer = document.createElement("div");
 keysContainer.className = "keyboard__keys-container";
 keyboard.appendChild(keysContainer);
 
-// Spesial keys event hendlera
+// Keys event hendlers
 
-function shiftHandler() {}
+function charHandler(key, position) {
+  textArea.value =
+    textArea.value.slice(0, position) +
+    key.textContent +
+    textArea.value.slice(position, textArea.value.length);
+  textArea.setSelectionRange(position + 1, position + 1);
+}
 
-function backspaceHandler() {
-  const cursorPosition = textArea.selectionStart;
-  console.log(cursorPosition);
-  // textArea.textContent = textArea.textContent.slice(0, -1);
+function backspaceHandler(position) {
+  if (position === 0) {
+    return;
+  }
+  const { value } = textArea;
+  textArea.value =
+    value.slice(0, position - 1) + value.slice(position, value.length);
+  textArea.setSelectionRange(position - 1, position - 1);
 }
 
 // Create keys button
@@ -222,24 +232,19 @@ function createKeysButton(keys, row) {
     const keyButton = document.createElement("div");
     keyButton.classList = `keyboard__button key-${key.lowerCase.toLowerCase()}`;
     keyButton.textContent = capsLock ? key.upperCase : key.lowerCase;
+
     keyButton.addEventListener("click", (event) => {
       event.preventDefault();
+      const position = textArea.selectionStart;
       textArea.focus();
-      const clickedButton =
-        event.target.classList[event.target.classList.length - 1];
-      if (clickedButton === "key-shift") {
-        shiftHandler();
-      } else if (clickedButton === "key-backspace") {
-        backspaceHandler();
-      } else {
-        const cursorPosition = textArea.selectionStart;
 
-        textArea.value =
-          textArea.value[(0, cursorPosition)] +
-          event.target.textContent +
-          textArea.value[(cursorPosition + 1, textArea.value.length)];
+      if (event.target.textContent.length == 1) {
+        charHandler(event.target, position);
+      } else if (event.target.textContent == "Backspace") {
+        backspaceHandler(position);
       }
     });
+
     row.appendChild(keyButton);
   });
 }
@@ -253,25 +258,25 @@ function createKeysRow(keysRow) {
   keysContainer.appendChild(row);
 }
 
-createKeysRow(keysFirstRow);
-createKeysRow(keysSecondRow);
-createKeysRow(keysThirdRow);
-createKeysRow(keysFourthRow);
-createKeysRow(keysFifthRow);
+function createKeyboard() {
+  createKeysRow(keysFirstRow);
+  createKeysRow(keysSecondRow);
+  createKeysRow(keysThirdRow);
+  createKeysRow(keysFourthRow);
+  createKeysRow(keysFifthRow);
+  page.appendChild(keyboard);
+}
 
-page.appendChild(keyboard);
+createKeyboard();
 
-// KeyBoard event
+// Add event listeners
 
 addEventListener("keydown", (event) => {
-  console.log(event.key);
+  textArea.focus();
   const activeButton = keyboard.querySelector(
     `.key-${event.key.toLowerCase()}`
   );
   activeButton.classList.add("active");
-  if (event.key) {
-    console.log(event.key);
-  }
 });
 
 addEventListener("keyup", () => {
