@@ -28,6 +28,32 @@
   padding: 10px;
   border-radius: 10px;
   outline: none;
+  resize: vertical;
+  min-height: 120px;
+  max-height: 500px;
+}
+
+/* custom scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(185, 231, 226);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: rgb(118, 204, 204);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(95, 163, 163);
 }
 
 .keyboard__wrapper {
