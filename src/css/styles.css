@@ -99,7 +99,8 @@
 }
 
 .keyboard__button:active,
-.active {
+.active,
+.capsON {
   position: relative;
   top: 3px;
   background-color: rgba(101, 155, 155, 0.15);

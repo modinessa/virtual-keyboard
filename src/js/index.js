@@ -255,6 +255,11 @@ function delHandler(position) {
 function capsLockHandler() {
   capsLock = !capsLock;
   redrawKeyboard();
+  if (capsLock) {
+    keyboard.querySelector(".key-capslock").classList.add("capsON");
+  } else {
+    keyboard.querySelector(".key-capslock").classList.remove("capsON");
+  }
 }
 function enterHandler(position) {
   textArea.value =
@@ -264,7 +269,16 @@ function enterHandler(position) {
   textArea.setSelectionRange(position + 1, position + 1);
 }
 
-function shiftHandler() {}
+function shiftHandler() {
+  capsLock = false;
+  shift = !shift;
+  redrawKeyboard();
+  if (shift) {
+    keyboard.querySelector(".key-shift").classList.add("capsON");
+  } else {
+    keyboard.querySelector(".key-shift").classList.remove("capsON");
+  }
+}
 
 // Create keys button
 
@@ -272,7 +286,7 @@ function createKeysButton(keys, row) {
   keys.map((key) => {
     const keyButton = document.createElement("div");
     keyButton.classList = `keyboard__button key-${key.lowerCase.toLowerCase()}`;
-    keyButton.textContent = capsLock ? key.upperCase : key.lowerCase;
+    keyButton.textContent = capsLock || shift ? key.upperCase : key.lowerCase;
 
     keyButton.addEventListener("click", (event) => {
       event.preventDefault();
@@ -291,8 +305,17 @@ function createKeysButton(keys, row) {
         delHandler(position);
       } else if (event.target.textContent == "CapsLock") {
         capsLockHandler();
+      } else if (event.target.textContent == "Shift") {
+        shiftHandler();
       } else if (event.target.textContent == "Enter") {
         enterHandler(position);
+      }
+
+      if (event.target.textContent != "Shift") {
+        if (shift) {
+          shift = false;
+          redrawKeyboard();
+        }
       }
     });
 
@@ -375,6 +398,8 @@ addEventListener("keydown", (event) => {
   if (event.key == "CapsLock") {
     capsLockHandler();
   }
+
+  //TODO while shift down virtual keyboard in upper case
 });
 
 addEventListener("keyup", () => {
