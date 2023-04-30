@@ -1,6 +1,7 @@
 let currentLang = "ENG"; //TODO Get language from OS
 let capsLock = false;
 let shift = false;
+let position = 0;
 
 const page = document.querySelector("body");
 page.className = "page";
@@ -207,6 +208,14 @@ keyboard.appendChild(keysContainer);
 
 // Keys event hendlers
 
+function arrowHandler(arrow, position) {
+  textArea.value =
+    textArea.value.slice(0, position) +
+    arrow +
+    textArea.value.slice(position, textArea.value.length);
+  textArea.setSelectionRange(position + 1, position + 1);
+}
+
 function charHandler(key, position) {
   textArea.value =
     textArea.value.slice(0, position) +
@@ -257,7 +266,7 @@ function createKeysButton(keys, row) {
 
     keyButton.addEventListener("click", (event) => {
       event.preventDefault();
-      const position = textArea.selectionStart;
+      position = textArea.selectionStart;
       textArea.focus();
 
       console.log(event.target.textContent);
@@ -300,11 +309,46 @@ createKeyboard();
 // Add event listeners
 
 addEventListener("keydown", (event) => {
+  position = textArea.selectionStart;
+
+  console.log(event.key);
+
+  if (
+    event.key == "Tab" ||
+    event.key == "ArrowUp" ||
+    event.key == "ArrowDown" ||
+    event.key == "ArrowLeft" ||
+    event.key == "ArrowRight"
+  ) {
+    event.preventDefault();
+  }
+
   textArea.focus();
-  const activeButton = keyboard.querySelector(
-    `.key-${event.key.toLowerCase()}`
-  );
+
+  let keyValue = "";
+
+  if (event.key == "ArrowUp") {
+    keyValue = "▲";
+    arrowHandler("▲", position);
+  } else if (event.key == "ArrowDown") {
+    keyValue = "▼";
+    arrowHandler("▼", position);
+  } else if (event.key == "ArrowLeft") {
+    keyValue = "◄";
+    arrowHandler("◄", position);
+  } else if (event.key == "ArrowRight") {
+    keyValue = "►";
+    arrowHandler("►", position);
+  } else {
+    keyValue = event.key.toLowerCase();
+  }
+
+  const activeButton = keyboard.querySelector(`.key-${keyValue}`);
+
   activeButton.classList.add("active");
+  if (event.key == "Tab") {
+    tabHandler(position);
+  }
 });
 
 addEventListener("keyup", () => {
