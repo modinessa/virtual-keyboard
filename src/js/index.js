@@ -225,6 +225,28 @@ function backspaceHandler(position) {
   textArea.setSelectionRange(position - 1, position - 1);
 }
 
+function tabHandler(position) {
+  textArea.value =
+    textArea.value.slice(0, position) +
+    String.fromCharCode(0x0009) +
+    textArea.value.slice(position, textArea.value.length);
+  textArea.setSelectionRange(position + 1, position + 1);
+}
+
+function delHandler(position) {
+  if (position === textArea.value.length) {
+    return;
+  }
+  const { value } = textArea;
+  textArea.value =
+    value.slice(0, position) + value.slice(position + 1, value.length);
+  textArea.setSelectionRange(position, position);
+}
+
+function capsLockHandler() {}
+function enterHandler() {}
+function shiftHandler() {}
+
 // Create keys button
 
 function createKeysButton(keys, row) {
@@ -238,10 +260,16 @@ function createKeysButton(keys, row) {
       const position = textArea.selectionStart;
       textArea.focus();
 
+      console.log(event.target.textContent);
+
       if (event.target.textContent.length == 1) {
         charHandler(event.target, position);
       } else if (event.target.textContent == "Backspace") {
         backspaceHandler(position);
+      } else if (event.target.textContent == "Tab") {
+        tabHandler(position);
+      } else if (event.target.textContent == "Del") {
+        delHandler(position);
       }
     });
 
