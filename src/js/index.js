@@ -252,7 +252,10 @@ function delHandler(position) {
   textArea.setSelectionRange(position, position);
 }
 
-function capsLockHandler() {}
+function capsLockHandler() {
+  capsLock = !capsLock;
+  redrawKeyboard();
+}
 function enterHandler() {}
 function shiftHandler() {}
 
@@ -279,6 +282,8 @@ function createKeysButton(keys, row) {
         tabHandler(position);
       } else if (event.target.textContent == "Del") {
         delHandler(position);
+      } else if (event.target.textContent == "CapsLock") {
+        capsLockHandler();
       }
     });
 
@@ -295,7 +300,7 @@ function createKeysRow(keysRow) {
   keysContainer.appendChild(row);
 }
 
-function createKeyboard() {
+function drawKeyboard() {
   createKeysRow(keysFirstRow);
   createKeysRow(keysSecondRow);
   createKeysRow(keysThirdRow);
@@ -304,9 +309,17 @@ function createKeyboard() {
   page.appendChild(keyboard);
 }
 
-createKeyboard();
+function redrawKeyboard() {
+  const rows = keysContainer.querySelectorAll(".keyboard__row");
+  rows.forEach((row) => {
+    keysContainer.removeChild(row);
+  });
+  drawKeyboard();
+}
 
-// Add event listeners
+drawKeyboard();
+
+// Add real keyboard event listeners
 
 addEventListener("keydown", (event) => {
   position = textArea.selectionStart;
@@ -344,10 +357,14 @@ addEventListener("keydown", (event) => {
   }
 
   const activeButton = keyboard.querySelector(`.key-${keyValue}`);
-
   activeButton.classList.add("active");
+
   if (event.key == "Tab") {
     tabHandler(position);
+  }
+  //TODO real Caps wors independently from virtual
+  if (event.key == "CapsLock") {
+    capsLockHandler();
   }
 });
 
