@@ -16,13 +16,18 @@
 
 .info {
   font-family: Tahoma, sans-serif;
-  color: rgb(229, 255, 252);
+  color: rgba(229, 255, 252, 0.8);
   margin: 10px 20px;
 }
 
 .text {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: 0.06em;
+  color: rgb(48, 90, 90);
   margin: 20px 20px;
+  padding: 10px;
   border-radius: 10px;
+  outline: none;
 }
 
 .keyboard__wrapper {
@@ -59,14 +64,16 @@
   width: 50px;
   height: 50px;
   background-color: transparent;
-  transition: top 0.5s;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .keyboard__button:hover {
   background-color: rgba(101, 155, 155, 0.3);
 }
 
-.keyboard__button:active {
+.keyboard__button:active,
+.active {
   position: relative;
   top: 3px;
   background-color: rgba(101, 155, 155, 0.15);
