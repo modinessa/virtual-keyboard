@@ -256,7 +256,14 @@ function capsLockHandler() {
   capsLock = !capsLock;
   redrawKeyboard();
 }
-function enterHandler() {}
+function enterHandler(position) {
+  textArea.value =
+    textArea.value.slice(0, position) +
+    String.fromCharCode(0x0d) +
+    textArea.value.slice(position, textArea.value.length);
+  textArea.setSelectionRange(position + 1, position + 1);
+}
+
 function shiftHandler() {}
 
 // Create keys button
@@ -284,6 +291,8 @@ function createKeysButton(keys, row) {
         delHandler(position);
       } else if (event.target.textContent == "CapsLock") {
         capsLockHandler();
+      } else if (event.target.textContent == "Enter") {
+        enterHandler(position);
       }
     });
 
