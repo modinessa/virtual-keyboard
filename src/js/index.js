@@ -1,6 +1,11 @@
 let currentLang = "ENG"; //TODO Get language from OS
 let capsLock = false;
 
+const page = document.querySelector("body");
+page.className = "page";
+
+// Create keys set
+
 const engKeys = [
   { lowerCase: "`", upperCase: "~" },
   { lowerCase: "1", upperCase: "!" },
@@ -60,7 +65,7 @@ const engKeys = [
   { lowerCase: "Ctrl", upperCase: "Ctrl" },
   { lowerCase: "Win", upperCase: "Win" },
   { lowerCase: "Alt", upperCase: "Alt" },
-  { lowerCase: "", upperCase: "" },
+  { lowerCase: " ", upperCase: " " },
   { lowerCase: "Alt", upperCase: "Alt" },
   { lowerCase: "◄", upperCase: "◄" },
   { lowerCase: "▼", upperCase: "▼" },
@@ -127,7 +132,7 @@ const rusKeys = [
   { lowerCase: "Ctrl", upperCase: "Ctrl" },
   { lowerCase: "Win", upperCase: "Win" },
   { lowerCase: "Alt", upperCase: "Alt" },
-  { lowerCase: "", upperCase: "" },
+  { lowerCase: " ", upperCase: " " },
   { lowerCase: "Alt", upperCase: "Alt" },
   { lowerCase: "◄", upperCase: "◄" },
   { lowerCase: "▼", upperCase: "▼" },
@@ -137,7 +142,7 @@ const rusKeys = [
 
 let keysFirstRow = [];
 const firstRowKeysAmount = [1, 14];
-let keysSecondtRow = [];
+let keysSecondRow = [];
 const secondRowKeysAmount = [15, 29];
 let keysThirdRow = [];
 const thirdRowKeysAmount = [30, 42];
@@ -149,13 +154,13 @@ const fifthRowKeysAmount = [56, 64];
 function getKeys(lang) {
   if (lang == "RUS") {
     keysFirstRow = setRow(rusKeys, firstRowKeysAmount);
-    keysSecondtRow = setRow(rusKeys, secondRowKeysAmount);
+    keysSecondRow = setRow(rusKeys, secondRowKeysAmount);
     keysThirdRow = setRow(rusKeys, thirdRowKeysAmount);
     keysFourthRow = setRow(rusKeys, fourthRowKeysAmount);
     keysFifthRow = setRow(rusKeys, fifthRowKeysAmount);
   } else if (lang == "ENG") {
     keysFirstRow = setRow(engKeys, firstRowKeysAmount);
-    keysSecondtRow = setRow(engKeys, secondRowKeysAmount);
+    keysSecondRow = setRow(engKeys, secondRowKeysAmount);
     keysThirdRow = setRow(engKeys, thirdRowKeysAmount);
     keysFourthRow = setRow(engKeys, fourthRowKeysAmount);
     keysFifthRow = setRow(engKeys, fifthRowKeysAmount);
@@ -167,9 +172,6 @@ function setRow(keys, rowChars) {
 }
 
 getKeys(currentLang);
-
-const page = document.querySelector("body");
-page.className = "page";
 
 // Create initial layout
 
@@ -186,6 +188,7 @@ infoLang.className = "info";
 infoLang.textContent = `Current language: ${currentLang}`;
 
 const textArea = document.createElement("textarea");
+textArea.autofocus = true;
 textArea.rows = "6";
 textArea.className = "text";
 
@@ -194,18 +197,49 @@ page.appendChild(infoOS);
 page.appendChild(infoLang);
 page.appendChild(textArea);
 
+// Create keyboard
+
 const keyboard = document.createElement("div");
 keyboard.className = "keyboard__wrapper";
 const keysContainer = document.createElement("div");
 keysContainer.className = "keyboard__keys-container";
 keyboard.appendChild(keysContainer);
 
+// Spesial keys event hendlera
+
+function shiftHandler() {}
+
+function backspaceHandler() {
+  const cursorPosition = textArea.selectionStart;
+  console.log(cursorPosition);
+  // textArea.textContent = textArea.textContent.slice(0, -1);
+}
+
 // Create keys button
+
 function createKeysButton(keys, row) {
   keys.map((key) => {
     const keyButton = document.createElement("div");
     keyButton.classList = `keyboard__button key-${key.lowerCase.toLowerCase()}`;
     keyButton.textContent = capsLock ? key.upperCase : key.lowerCase;
+    keyButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      textArea.focus();
+      const clickedButton =
+        event.target.classList[event.target.classList.length - 1];
+      if (clickedButton === "key-shift") {
+        shiftHandler();
+      } else if (clickedButton === "key-backspace") {
+        backspaceHandler();
+      } else {
+        const cursorPosition = textArea.selectionStart;
+
+        textArea.value =
+          textArea.value[(0, cursorPosition)] +
+          event.target.textContent +
+          textArea.value[(cursorPosition + 1, textArea.value.length)];
+      }
+    });
     row.appendChild(keyButton);
   });
 }
@@ -220,9 +254,27 @@ function createKeysRow(keysRow) {
 }
 
 createKeysRow(keysFirstRow);
-createKeysRow(keysSecondtRow);
+createKeysRow(keysSecondRow);
 createKeysRow(keysThirdRow);
 createKeysRow(keysFourthRow);
 createKeysRow(keysFifthRow);
 
 page.appendChild(keyboard);
+
+// KeyBoard event
+
+addEventListener("keydown", (event) => {
+  console.log(event.key);
+  const activeButton = keyboard.querySelector(
+    `.key-${event.key.toLowerCase()}`
+  );
+  activeButton.classList.add("active");
+  if (event.key) {
+    console.log(event.key);
+  }
+});
+
+addEventListener("keyup", () => {
+  const activeButton = keyboard.querySelector(".active");
+  activeButton.classList.remove("active");
+});
