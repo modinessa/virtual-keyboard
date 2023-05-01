@@ -356,20 +356,10 @@ drawKeyboard();
 addEventListener("keydown", (event) => {
   position = textArea.selectionStart;
 
-  console.log(event);
-  console.log(event.key);
+  // console.log(event);
+  // console.log(event.key);
 
-  if (
-    event.key == "Tab" ||
-    event.key == "Control" ||
-    event.key == "Alt" ||
-    event.key == "ArrowUp" ||
-    event.key == "ArrowDown" ||
-    event.key == "ArrowLeft" ||
-    event.key == "ArrowRight"
-  ) {
-    event.preventDefault();
-  }
+  event.preventDefault();
 
   textArea.focus();
 
@@ -405,12 +395,27 @@ addEventListener("keydown", (event) => {
     keyValue = event.key.toLowerCase();
   }
 
+  if (event.key.length == 1) {
+    const key = keyboard.querySelector(`.key-${keyValue}`);
+
+    charHandler(key, position);
+  }
+
   if (keyValue == "shift" || keyValue == "alt" || keyValue == "ctrl") {
     const activeButton = keyboard.querySelectorAll(`.key-${keyValue}`);
     activeButton[location - 1].classList.add("active");
   } else {
     const activeButton = keyboard.querySelector(`.key-${keyValue}`);
     activeButton.classList.add("active");
+  }
+
+  if (keyValue == "ctrl" && keyValue == "alt") {
+    console.log(currentLang);
+    if (currentLang == "ENG") {
+      currentLang = "RUS";
+    } else {
+      currentLang = "ENG";
+    }
   }
 
   if (event.key == "Tab") {
