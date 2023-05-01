@@ -144,7 +144,7 @@ const rusKeys = [
   { lowerCase: "ш", upperCase: "Ш", row: 2, keyCode: "KeyI" },
   { lowerCase: "щ", upperCase: "Щ", row: 2, keyCode: "KeyO" },
   { lowerCase: "з", upperCase: "З", row: 2, keyCode: "KeyP" },
-  { lowerCase: "х", upperCase: "х", row: 2, keyCode: "BracketLeft" },
+  { lowerCase: "х", upperCase: "Х", row: 2, keyCode: "BracketLeft" },
   { lowerCase: "ъ", upperCase: "Ъ", row: 2, keyCode: "BracketRight" },
   { lowerCase: "\\", upperCase: "/", row: 2, keyCode: "Backslash" },
   { lowerCase: "Del", upperCase: "Del", row: 2, keyCode: "Delete" },
@@ -291,7 +291,6 @@ class KeyBoard {
   }
 
   trueKeyboard(keyCode, letter) {
-    // console.log(this.keys.get(keyCode));
     let key = this.keys.get(keyCode) || this.keys.get(letter.toLowerCase());
 
     if (!key) {
@@ -497,7 +496,6 @@ let currentKeyboard = new KeyBoard("Eng", keysLanguage).create();
 // Add real keyboard event listeners
 
 addEventListener("keydown", (event) => {
-  // console.log(event);
   position = textArea.selectionStart;
 
   event.preventDefault();
@@ -539,9 +537,8 @@ addEventListener("keyup", (event) => {
     currentKeyboard.shift();
   }
   const activeKeys = document.querySelectorAll(".active");
-  console.log(activeKeys);
+
   activeKeys.forEach((key) => {
-    console.log(key);
     if (key.classList[-1] != "key-capslock") key.classList.remove("active");
   });
 });
