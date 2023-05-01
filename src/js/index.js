@@ -356,10 +356,13 @@ drawKeyboard();
 addEventListener("keydown", (event) => {
   position = textArea.selectionStart;
 
+  console.log(event);
   console.log(event.key);
 
   if (
     event.key == "Tab" ||
+    event.key == "Control" ||
+    event.key == "Alt" ||
     event.key == "ArrowUp" ||
     event.key == "ArrowDown" ||
     event.key == "ArrowLeft" ||
@@ -371,6 +374,7 @@ addEventListener("keydown", (event) => {
   textArea.focus();
 
   let keyValue = "";
+  let location = 1;
 
   if (event.key == "ArrowUp") {
     keyValue = "▲";
@@ -384,12 +388,30 @@ addEventListener("keydown", (event) => {
   } else if (event.key == "ArrowRight") {
     keyValue = "►";
     arrowHandler("►", position);
+  } else if (event.key == "Meta") {
+    keyValue = "win";
+  } else if (event.key == "Delete") {
+    keyValue = "del";
+  } else if (event.key == "Alt") {
+    keyValue = "alt";
+    location = event.location;
+  } else if (event.key == "Shift") {
+    keyValue = "shift";
+    location = event.location;
+  } else if (event.key == "Control") {
+    keyValue = "ctrl";
+    location = event.location;
   } else {
     keyValue = event.key.toLowerCase();
   }
 
-  const activeButton = keyboard.querySelector(`.key-${keyValue}`);
-  activeButton.classList.add("active");
+  if (keyValue == "shift" || keyValue == "alt" || keyValue == "ctrl") {
+    const activeButton = keyboard.querySelectorAll(`.key-${keyValue}`);
+    activeButton[location - 1].classList.add("active");
+  } else {
+    const activeButton = keyboard.querySelector(`.key-${keyValue}`);
+    activeButton.classList.add("active");
+  }
 
   if (event.key == "Tab") {
     tabHandler(position);
@@ -402,7 +424,9 @@ addEventListener("keydown", (event) => {
   //TODO while shift down virtual keyboard in upper case
 });
 
-addEventListener("keyup", () => {
-  const activeButton = keyboard.querySelector(".active");
-  activeButton.classList.remove("active");
+addEventListener("keyup", (event) => {
+  if (event.key != "CapsLock") {
+    const activeButton = keyboard.querySelector(".active");
+    activeButton.classList.remove("active");
+  }
 });
