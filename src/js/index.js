@@ -1,179 +1,459 @@
-let currentLang = "ENG"; //TODO Get language from OS
-let capsLock = false;
-let shift = false;
-let position = 0;
-
+let currentLang = localStorage.getItem("lang") || "ENG";
 const page = document.querySelector("body");
 page.className = "page";
 
 // Create keys set
 
 const engKeys = [
-  { lowerCase: "`", upperCase: "~" },
-  { lowerCase: "1", upperCase: "!" },
-  { lowerCase: "2", upperCase: "@" },
-  { lowerCase: "3", upperCase: "#" },
-  { lowerCase: "4", upperCase: "$" },
-  { lowerCase: "5", upperCase: "%" },
-  { lowerCase: "6", upperCase: "^" },
-  { lowerCase: "7", upperCase: "&" },
-  { lowerCase: "8", upperCase: "*" },
-  { lowerCase: "9", upperCase: "(" },
-  { lowerCase: "0", upperCase: ")" },
-  { lowerCase: "-", upperCase: "_" },
-  { lowerCase: "=", upperCase: "+" },
-  { lowerCase: "Backspace", upperCase: "Backspace" },
-  { lowerCase: "Tab", upperCase: "Tab" },
-  { lowerCase: "q", upperCase: "Q" },
-  { lowerCase: "w", upperCase: "W" },
-  { lowerCase: "e", upperCase: "E" },
-  { lowerCase: "r", upperCase: "R" },
-  { lowerCase: "t", upperCase: "T" },
-  { lowerCase: "y", upperCase: "Y" },
-  { lowerCase: "u", upperCase: "U" },
-  { lowerCase: "i", upperCase: "I" },
-  { lowerCase: "o", upperCase: "O" },
-  { lowerCase: "p", upperCase: "P" },
-  { lowerCase: "[", upperCase: "{" },
-  { lowerCase: "]", upperCase: "}," },
-  { lowerCase: "\\", upperCase: "|" },
-  { lowerCase: "Del", upperCase: "Del" },
-  { lowerCase: "CapsLock", upperCase: "CapsLock" },
-  { lowerCase: "a", upperCase: "A" },
-  { lowerCase: "s", upperCase: "S" },
-  { lowerCase: "d", upperCase: "D" },
-  { lowerCase: "f", upperCase: "F" },
-  { lowerCase: "g", upperCase: "G" },
-  { lowerCase: "h", upperCase: "H" },
-  { lowerCase: "j", upperCase: "J" },
-  { lowerCase: "k", upperCase: "K" },
-  { lowerCase: "l", upperCase: "L" },
-  { lowerCase: ";", upperCase: ":" },
-  { lowerCase: "'", upperCase: '"' },
-  { lowerCase: "Enter", upperCase: "Enter" },
-  { lowerCase: "Shift", upperCase: "Shift" },
-  { lowerCase: "z", upperCase: "Z" },
-  { lowerCase: "x", upperCase: "X" },
-  { lowerCase: "c", upperCase: "C" },
-  { lowerCase: "v", upperCase: "V" },
-  { lowerCase: "b", upperCase: "B" },
-  { lowerCase: "n", upperCase: "N" },
-  { lowerCase: "m", upperCase: "M" },
-  { lowerCase: ",", upperCase: "<" },
-  { lowerCase: ".", upperCase: ">" },
-  { lowerCase: "/", upperCase: "?" },
-  { lowerCase: "▲", upperCase: "▲" },
-  { lowerCase: "Shift", upperCase: "Shift" },
-  { lowerCase: "Ctrl", upperCase: "Ctrl" },
-  { lowerCase: "Win", upperCase: "Win" },
-  { lowerCase: "Alt", upperCase: "Alt" },
-  { lowerCase: " ", upperCase: " " },
-  { lowerCase: "Alt", upperCase: "Alt" },
-  { lowerCase: "◄", upperCase: "◄" },
-  { lowerCase: "▼", upperCase: "▼" },
-  { lowerCase: "►", upperCase: "►" },
-  { lowerCase: "Ctrl", upperCase: "Ctrl" },
+  { lowerCase: "`", upperCase: "~", row: 1 },
+  { lowerCase: "1", upperCase: "!", row: 1 },
+  { lowerCase: "2", upperCase: "@", row: 1 },
+  { lowerCase: "3", upperCase: "#", row: 1 },
+  { lowerCase: "4", upperCase: "$", row: 1 },
+  { lowerCase: "5", upperCase: "%", row: 1 },
+  { lowerCase: "6", upperCase: "^", row: 1 },
+  { lowerCase: "7", upperCase: "&", row: 1 },
+  { lowerCase: "8", upperCase: "*", row: 1 },
+  { lowerCase: "9", upperCase: "(", row: 1 },
+  { lowerCase: "0", upperCase: ")", row: 1 },
+  { lowerCase: "-", upperCase: "_", row: 1 },
+  { lowerCase: "=", upperCase: "+", row: 1 },
+  { lowerCase: "Backspace", upperCase: "Backspace", row: 1 },
+  { lowerCase: "Tab", upperCase: "Tab", row: 2 },
+  { lowerCase: "q", upperCase: "Q", row: 2 },
+  { lowerCase: "w", upperCase: "W", row: 2 },
+  { lowerCase: "e", upperCase: "E", row: 2 },
+  { lowerCase: "r", upperCase: "R", row: 2 },
+  { lowerCase: "t", upperCase: "T", row: 2 },
+  { lowerCase: "y", upperCase: "Y", row: 2 },
+  { lowerCase: "u", upperCase: "U", row: 2 },
+  { lowerCase: "i", upperCase: "I", row: 2 },
+  { lowerCase: "o", upperCase: "O", row: 2 },
+  { lowerCase: "p", upperCase: "P", row: 2 },
+  { lowerCase: "[", upperCase: "{", row: 2 },
+  { lowerCase: "]", upperCase: "}", row: 2 },
+  { lowerCase: "\\", upperCase: "|", row: 2 },
+  { lowerCase: "Del", upperCase: "Del", row: 2, keyCode: "Delete" },
+  {
+    lowerCase: "CapsLock",
+    upperCase: "CapsLock",
+    row: 3,
+    props: { capslock: true },
+  },
+  { lowerCase: "a", upperCase: "A", row: 3 },
+  { lowerCase: "s", upperCase: "S", row: 3 },
+  { lowerCase: "d", upperCase: "D", row: 3 },
+  { lowerCase: "f", upperCase: "F", row: 3 },
+  { lowerCase: "g", upperCase: "G", row: 3 },
+  { lowerCase: "h", upperCase: "H", row: 3 },
+  { lowerCase: "j", upperCase: "J", row: 3 },
+  { lowerCase: "k", upperCase: "K", row: 3 },
+  { lowerCase: "l", upperCase: "L", row: 3 },
+  { lowerCase: ";", upperCase: ":", row: 3 },
+  { lowerCase: "'", upperCase: '"', row: 3 },
+  { lowerCase: "Enter", upperCase: "Enter", row: 3 },
+  {
+    lowerCase: "Shift",
+    upperCase: "Shift",
+    row: 4,
+    keyCode: "ShiftLeft",
+    props: { shift: true },
+  },
+  { lowerCase: "z", upperCase: "Z", row: 4 },
+  { lowerCase: "x", upperCase: "X", row: 4 },
+  { lowerCase: "c", upperCase: "C", row: 4 },
+  { lowerCase: "v", upperCase: "V", row: 4 },
+  { lowerCase: "b", upperCase: "B", row: 4 },
+  { lowerCase: "n", upperCase: "N", row: 4 },
+  { lowerCase: "m", upperCase: "M", row: 4 },
+  { lowerCase: ",", upperCase: "<", row: 4 },
+  { lowerCase: ".", upperCase: ">", row: 4 },
+  { lowerCase: "/", upperCase: "?", row: 4 },
+  { lowerCase: "▲", upperCase: "▲", row: 4, keyCode: "ArrowUp" },
+  {
+    lowerCase: "Shift",
+    upperCase: "Shift",
+    row: 4,
+    keyCode: "ShifRight",
+    props: { shift: true },
+  },
+  {
+    lowerCase: "Ctrl",
+    upperCase: "Ctrl",
+    row: 5,
+    keyCode: "ControlLeft",
+    props: { noHandle: true },
+  },
+  {
+    lowerCase: "Win",
+    upperCase: "Win",
+    row: 5,
+    keyCode: "MetaLeft",
+    props: { noHandle: true },
+  },
+  {
+    lowerCase: "Alt",
+    upperCase: "Alt",
+    row: 5,
+    keyCode: "AltLeft",
+    props: { noHandle: true },
+  },
+  { lowerCase: " ", upperCase: " ", row: 5 },
+  {
+    lowerCase: "Alt",
+    upperCase: "Alt",
+    row: 5,
+    keyCode: "AltRight",
+    props: { noHandle: true },
+  },
+  { lowerCase: "◄", upperCase: "◄", row: 5, keyCode: "ArrowLeft" },
+  { lowerCase: "▼", upperCase: "▼", row: 5, keyCode: "ArrowRight" },
+  { lowerCase: "►", upperCase: "►", row: 5, keyCode: "ArrowDown" },
+  {
+    lowerCase: "Ctrl",
+    upperCase: "Ctrl",
+    row: 5,
+    keyCode: "ControlRight",
+    props: { noHandle: true },
+  },
 ];
 
 const rusKeys = [
-  { lowerCase: "ё", upperCase: "Ё" },
-  { lowerCase: "1", upperCase: "!" },
-  { lowerCase: "2", upperCase: '"' },
-  { lowerCase: "3", upperCase: "№" },
-  { lowerCase: "4", upperCase: ";" },
-  { lowerCase: "5", upperCase: "%" },
-  { lowerCase: "6", upperCase: ":" },
-  { lowerCase: "7", upperCase: "?" },
-  { lowerCase: "8", upperCase: "*" },
-  { lowerCase: "9", upperCase: "(" },
-  { lowerCase: "0", upperCase: ")" },
-  { lowerCase: "-", upperCase: "_" },
-  { lowerCase: "=", upperCase: "+" },
-  { lowerCase: "Backspace", upperCase: "Backspace" },
-  { lowerCase: "Tab", upperCase: "Tab" },
-  { lowerCase: "й", upperCase: "Й" },
-  { lowerCase: "ц", upperCase: "Ц" },
-  { lowerCase: "у", upperCase: "У" },
-  { lowerCase: "к", upperCase: "К" },
-  { lowerCase: "е", upperCase: "Е" },
-  { lowerCase: "н", upperCase: "Н" },
-  { lowerCase: "г", upperCase: "Г" },
-  { lowerCase: "ш", upperCase: "Ш" },
-  { lowerCase: "щ", upperCase: "Щ" },
-  { lowerCase: "з", upperCase: "З" },
-  { lowerCase: "х", upperCase: "х" },
-  { lowerCase: "ъ", upperCase: "Ъ" },
-  { lowerCase: "\\", upperCase: "/" },
-  { lowerCase: "Del", upperCase: "Del" },
-  { lowerCase: "CapsLock", upperCase: "CapsLock" },
-  { lowerCase: "ф", upperCase: "Ф" },
-  { lowerCase: "ы", upperCase: "Ы" },
-  { lowerCase: "в", upperCase: "В" },
-  { lowerCase: "а", upperCase: "А" },
-  { lowerCase: "п", upperCase: "П" },
-  { lowerCase: "р", upperCase: "Р" },
-  { lowerCase: "о", upperCase: "О" },
-  { lowerCase: "л", upperCase: "Л" },
-  { lowerCase: "д", upperCase: "Д" },
-  { lowerCase: "ж", upperCase: "Ж" },
-  { lowerCase: "э", upperCase: "Э" },
-  { lowerCase: "Enter", upperCase: "Enter" },
-  { lowerCase: "Shift", upperCase: "Shift" },
-  { lowerCase: "я", upperCase: "Я" },
-  { lowerCase: "ч", upperCase: "Ч" },
-  { lowerCase: "с", upperCase: "С" },
-  { lowerCase: "м", upperCase: "М" },
-  { lowerCase: "и", upperCase: "И" },
-  { lowerCase: "т", upperCase: "Т" },
-  { lowerCase: "ь", upperCase: "Ь" },
-  { lowerCase: "б", upperCase: "Б" },
-  { lowerCase: "ю", upperCase: "Ю" },
-  { lowerCase: ".", upperCase: "," },
-  { lowerCase: "▲", upperCase: "▲" },
-  { lowerCase: "Shift", upperCase: "Shift" },
-  { lowerCase: "Ctrl", upperCase: "Ctrl" },
-  { lowerCase: "Win", upperCase: "Win" },
-  { lowerCase: "Alt", upperCase: "Alt" },
-  { lowerCase: " ", upperCase: " " },
-  { lowerCase: "Alt", upperCase: "Alt" },
-  { lowerCase: "◄", upperCase: "◄" },
-  { lowerCase: "▼", upperCase: "▼" },
-  { lowerCase: "►", upperCase: "►" },
-  { lowerCase: "Ctrl", upperCase: "Ctrl" },
+  { lowerCase: "ё", upperCase: "Ё", row: 1 },
+  { lowerCase: "1", upperCase: "!", row: 1 },
+  { lowerCase: "2", upperCase: '"', row: 1 },
+  { lowerCase: "3", upperCase: "№", row: 1 },
+  { lowerCase: "4", upperCase: ";", row: 1 },
+  { lowerCase: "5", upperCase: "%", row: 1 },
+  { lowerCase: "6", upperCase: ":", row: 1 },
+  { lowerCase: "7", upperCase: "?", row: 1 },
+  { lowerCase: "8", upperCase: "*", row: 1 },
+  { lowerCase: "9", upperCase: "(", row: 1 },
+  { lowerCase: "0", upperCase: ")", row: 1 },
+  { lowerCase: "-", upperCase: "_", row: 1 },
+  { lowerCase: "=", upperCase: "+", row: 1 },
+  { lowerCase: "Backspace", upperCase: "Backspace", row: 1 },
+  { lowerCase: "Tab", upperCase: "Tab", row: 2 },
+  { lowerCase: "й", upperCase: "Й", row: 2 },
+  { lowerCase: "ц", upperCase: "Ц", row: 2 },
+  { lowerCase: "у", upperCase: "У", row: 2 },
+  { lowerCase: "к", upperCase: "К", row: 2 },
+  { lowerCase: "е", upperCase: "Е", row: 2 },
+  { lowerCase: "н", upperCase: "Н", row: 2 },
+  { lowerCase: "г", upperCase: "Г", row: 2 },
+  { lowerCase: "ш", upperCase: "Ш", row: 2 },
+  { lowerCase: "щ", upperCase: "Щ", row: 2 },
+  { lowerCase: "з", upperCase: "З", row: 2 },
+  { lowerCase: "х", upperCase: "х", row: 2 },
+  { lowerCase: "ъ", upperCase: "Ъ", row: 2 },
+  { lowerCase: "\\", upperCase: "/", row: 2 },
+  { lowerCase: "Del", upperCase: "Del", row: 2, keyCode: "Delete" },
+  {
+    lowerCase: "CapsLock",
+    upperCase: "CapsLock",
+    row: 3,
+    props: { capslock: true },
+  },
+  { lowerCase: "ф", upperCase: "Ф", row: 3 },
+  { lowerCase: "ы", upperCase: "Ы", row: 3 },
+  { lowerCase: "в", upperCase: "В", row: 3 },
+  { lowerCase: "а", upperCase: "А", row: 3 },
+  { lowerCase: "п", upperCase: "П", row: 3 },
+  { lowerCase: "р", upperCase: "Р", row: 3 },
+  { lowerCase: "о", upperCase: "О", row: 3 },
+  { lowerCase: "л", upperCase: "Л", row: 3 },
+  { lowerCase: "д", upperCase: "Д", row: 3 },
+  { lowerCase: "ж", upperCase: "Ж", row: 3 },
+  { lowerCase: "э", upperCase: "Э", row: 3 },
+  { lowerCase: "Enter", upperCase: "Enter", row: 3 },
+  {
+    lowerCase: "Shift",
+    upperCase: "Shift",
+    row: 4,
+    keyCode: "ShiftLeft",
+    props: { shift: true },
+  },
+  { lowerCase: "я", upperCase: "Я", row: 4 },
+  { lowerCase: "ч", upperCase: "Ч", row: 4 },
+  { lowerCase: "с", upperCase: "С", row: 4 },
+  { lowerCase: "м", upperCase: "М", row: 4 },
+  { lowerCase: "и", upperCase: "И", row: 4 },
+  { lowerCase: "т", upperCase: "Т", row: 4 },
+  { lowerCase: "ь", upperCase: "Ь", row: 4 },
+  { lowerCase: "б", upperCase: "Б", row: 4 },
+  { lowerCase: "ю", upperCase: "Ю", row: 4 },
+  { lowerCase: ".", upperCase: ",", row: 4 },
+  { lowerCase: "▲", upperCase: "▲", row: 4, keyCode: "ArrowUp" },
+  {
+    lowerCase: "Shift",
+    upperCase: "Shift",
+    row: 4,
+    keyCode: "ShifRight",
+    props: { shift: true },
+  },
+  {
+    lowerCase: "Ctrl",
+    upperCase: "Ctrl",
+    row: 5,
+    keyCode: "ControlLeft",
+    props: { noHandle: true },
+  },
+  {
+    lowerCase: "Win",
+    upperCase: "Win",
+    row: 5,
+    keyCode: "MetaLeft",
+    props: { noHandle: true },
+  },
+  {
+    lowerCase: "Alt",
+    upperCase: "Alt",
+    row: 5,
+    keyCode: "AltLeft",
+    props: { noHandle: true },
+  },
+  { lowerCase: " ", upperCase: " ", row: 5 },
+  {
+    lowerCase: "Alt",
+    upperCase: "Alt",
+    row: 5,
+    keyCode: "AltRight",
+    props: { noHandle: true },
+  },
+  { lowerCase: "◄", upperCase: "◄", row: 5, keyCode: "ArrowLeft" },
+  { lowerCase: "▼", upperCase: "▼", row: 5, keyCode: "ArrowRight" },
+  { lowerCase: "►", upperCase: "►", row: 5, keyCode: "ArrowDown" },
+  {
+    lowerCase: "Ctrl",
+    upperCase: "Ctrl",
+    row: 5,
+    keyCode: "ControlRight",
+    props: { noHandle: true },
+  },
 ];
 
-let keysFirstRow = [];
-const firstRowKeysAmount = [1, 14];
-let keysSecondRow = [];
-const secondRowKeysAmount = [15, 29];
-let keysThirdRow = [];
-const thirdRowKeysAmount = [30, 42];
-let keysFourthRow = [];
-const fourthRowKeysAmount = [43, 55];
-let keysFifthRow = [];
-const fifthRowKeysAmount = [56, 64];
+let keysLanguage = currentLang == "ENG" ? [...engKeys] : [...rusKeys];
 
-function getKeys(lang) {
-  if (lang == "RUS") {
-    keysFirstRow = setRow(rusKeys, firstRowKeysAmount);
-    keysSecondRow = setRow(rusKeys, secondRowKeysAmount);
-    keysThirdRow = setRow(rusKeys, thirdRowKeysAmount);
-    keysFourthRow = setRow(rusKeys, fourthRowKeysAmount);
-    keysFifthRow = setRow(rusKeys, fifthRowKeysAmount);
-  } else if (lang == "ENG") {
-    keysFirstRow = setRow(engKeys, firstRowKeysAmount);
-    keysSecondRow = setRow(engKeys, secondRowKeysAmount);
-    keysThirdRow = setRow(engKeys, thirdRowKeysAmount);
-    keysFourthRow = setRow(engKeys, fourthRowKeysAmount);
-    keysFifthRow = setRow(engKeys, fifthRowKeysAmount);
+class KeyBoard {
+  keys;
+  rawKeys;
+  language;
+  rowsNumber = 5;
+
+  onLower = true;
+
+  capslockOn = false;
+  shiftOn = false;
+
+  shiftButtons = [];
+  capslockButtons = [];
+
+  constructor(language, keys, rowsNumber = 5) {
+    this.language = language;
+    this.rawKeys = keys;
+    this.rowsNumber = rowsNumber;
+    this.keys = new Map();
+  }
+
+  create() {
+    for (let i = 1; i <= this.rowsNumber; i++) {
+      this.createRow(this.rawKeys.filter((key) => key.row === i));
+    }
+    page.appendChild(keyboard);
+    return this;
+  }
+
+  createRow(keys) {
+    const row = document.createElement("div");
+    row.className = "keyboard__row";
+    for (const { lowerCase, upperCase, props, keyCode } of keys) {
+      const key = new Key(
+        lowerCase,
+        upperCase,
+        props ? props.noHandle : false,
+        this
+      ).create(row);
+      if (props && props.shift) {
+        this.shiftButtons.push(key);
+      } else if (props && props.capslock) {
+        this.capslockButtons.push(key);
+      }
+      this.keys.set(keyCode || lowerCase, key);
+    }
+    keysContainer.appendChild(row);
+  }
+
+  delete() {
+    const rows = keysContainer.querySelectorAll(".keyboard__row");
+    rows.forEach((row) => {
+      keysContainer.removeChild(row);
+    });
+  }
+
+  // change letter to keycode and update json to have it
+  // map keys should be keycode to handle repeated buttons
+  trueKeyboard(keyCode, letter) {
+    console.log(this.keys.get(keyCode));
+    let key = this.keys.get(keyCode) || this.keys.get(letter.toLowerCase());
+    console.log(key);
+    if (!key) {
+      return;
+    }
+    key.handleClick();
+  }
+
+  shift(shiftOn = true) {
+    this.shiftOn = shiftOn;
+    this.capslockOn = false;
+    this.switchCase();
+  }
+
+  capslock() {
+    this.shiftOn = false;
+    this.capslockOn = !this.capslockOn;
+    this.switchCase();
+  }
+
+  switchCase() {
+    for (const key of this.shiftButtons) {
+      if (this.shiftOn) {
+        key.key.classList.add("capsON");
+      } else {
+        key.key.classList.remove("capsON");
+      }
+    }
+
+    for (const key of this.capslockButtons) {
+      if (this.capslockOn) {
+        key.key.classList.add("capsON");
+      } else {
+        key.key.classList.remove("capsON");
+      }
+    }
+
+    for (const key of this.keys.values()) {
+      key.switchCase(this.capslockOn || this.shiftOn);
+    }
   }
 }
 
-function setRow(keys, rowChars) {
-  return keys.slice(rowChars[0] - 1, rowChars[1]);
-}
+class Key {
+  lowerCase;
+  upperCase;
+  keyboard;
+  key = null;
+  noHandle;
 
-getKeys(currentLang);
+  constructor(lowerCase, upperCase, noHanle, keyboard) {
+    this.lowerCase = lowerCase;
+    this.upperCase = upperCase;
+    this.keyboard = keyboard;
+    this.noHandle = noHanle;
+  }
+
+  create(row) {
+    this.key = document.createElement("div");
+    this.key.classList = `keyboard__button key-${this.lowerCase.toLowerCase()}`;
+    this.key.textContent = this.lowerCase;
+
+    this.key.addEventListener("click", (event) => {
+      event.preventDefault();
+      this.handleClick();
+    });
+
+    row.appendChild(this.key);
+    return this;
+  }
+
+  handleClick() {
+    this.key.classList.add("active");
+    const position = textArea.selectionStart;
+    textArea.focus();
+
+    if (!this.noHandle) {
+      if (this.lowerCase === "Backspace") {
+        this.backspaceHandler(position);
+      } else if (this.lowerCase === "Tab") {
+        this.tabHandler(position);
+      } else if (this.lowerCase === "Del") {
+        this.delHandler(position);
+      } else if (this.lowerCase === "CapsLock") {
+        this.keyboard.capslock();
+      } else if (this.lowerCase === "Shift") {
+        this.keyboard.shift();
+      } else if (this.lowerCase === "Enter") {
+        this.enterHandler(position);
+      } else {
+        this.charHandler(this.key, position);
+      }
+
+      if (this.lowerCase !== "Shift") {
+        if (this.keyboard.shiftOn) {
+          this.keyboard.shift(false);
+        }
+      }
+    }
+    setTimeout(() => {
+      this.key.classList.remove("active");
+    }, 100);
+  }
+
+  switchCase(upperCase = false) {
+    this.key.textContent = upperCase ? this.upperCase : this.lowerCase;
+  }
+
+  arrowHandler(arrow, position) {
+    textArea.value =
+      textArea.value.slice(0, position) +
+      arrow +
+      textArea.value.slice(position, textArea.value.length);
+    textArea.setSelectionRange(position + 1, position + 1);
+  }
+
+  charHandler(key, position) {
+    textArea.value =
+      textArea.value.slice(0, position) +
+      key.textContent +
+      textArea.value.slice(position, textArea.value.length);
+    textArea.setSelectionRange(position + 1, position + 1);
+  }
+
+  backspaceHandler(position) {
+    if (position === 0) {
+      return;
+    }
+    const { value } = textArea;
+    textArea.value =
+      value.slice(0, position - 1) + value.slice(position, value.length);
+    textArea.setSelectionRange(position - 1, position - 1);
+  }
+
+  tabHandler(position) {
+    textArea.value =
+      textArea.value.slice(0, position) +
+      String.fromCharCode(0x0009) +
+      textArea.value.slice(position, textArea.value.length);
+    textArea.setSelectionRange(position + 1, position + 1);
+  }
+
+  delHandler(position) {
+    if (position === textArea.value.length) {
+      return;
+    }
+    const { value } = textArea;
+    textArea.value =
+      value.slice(0, position) + value.slice(position + 1, value.length);
+    textArea.setSelectionRange(position, position);
+  }
+
+  enterHandler(position) {
+    textArea.value =
+      textArea.value.slice(0, position) +
+      String.fromCharCode(0x0d) +
+      textArea.value.slice(position, textArea.value.length);
+    textArea.setSelectionRange(position + 1, position + 1);
+  }
+}
 
 // Create initial layout
 
@@ -185,6 +465,10 @@ const infoOS = document.createElement("p");
 infoOS.className = "info";
 infoOS.textContent = "This keyboard was made for Windows";
 
+const infoSwitchLang = document.createElement("p");
+infoSwitchLang.className = "info";
+infoSwitchLang.textContent = "To switch language press: Ctrl + Alt";
+
 const infoLang = document.createElement("p");
 infoLang.className = "info";
 infoLang.textContent = `Current language: ${currentLang}`;
@@ -195,6 +479,7 @@ textArea.className = "text";
 
 page.appendChild(title);
 page.appendChild(infoOS);
+page.appendChild(infoSwitchLang);
 page.appendChild(infoLang);
 page.appendChild(textArea);
 
@@ -206,232 +491,34 @@ const keysContainer = document.createElement("div");
 keysContainer.className = "keyboard__keys-container";
 keyboard.appendChild(keysContainer);
 
-// Keys event hendlers
-
-function arrowHandler(arrow, position) {
-  textArea.value =
-    textArea.value.slice(0, position) +
-    arrow +
-    textArea.value.slice(position, textArea.value.length);
-  textArea.setSelectionRange(position + 1, position + 1);
-}
-
-function charHandler(key, position) {
-  textArea.value =
-    textArea.value.slice(0, position) +
-    key.textContent +
-    textArea.value.slice(position, textArea.value.length);
-  textArea.setSelectionRange(position + 1, position + 1);
-}
-
-function backspaceHandler(position) {
-  if (position === 0) {
-    return;
-  }
-  const { value } = textArea;
-  textArea.value =
-    value.slice(0, position - 1) + value.slice(position, value.length);
-  textArea.setSelectionRange(position - 1, position - 1);
-}
-
-function tabHandler(position) {
-  textArea.value =
-    textArea.value.slice(0, position) +
-    String.fromCharCode(0x0009) +
-    textArea.value.slice(position, textArea.value.length);
-  textArea.setSelectionRange(position + 1, position + 1);
-}
-
-function delHandler(position) {
-  if (position === textArea.value.length) {
-    return;
-  }
-  const { value } = textArea;
-  textArea.value =
-    value.slice(0, position) + value.slice(position + 1, value.length);
-  textArea.setSelectionRange(position, position);
-}
-
-function capsLockHandler() {
-  capsLock = !capsLock;
-  redrawKeyboard();
-  if (capsLock) {
-    keyboard.querySelector(".key-capslock").classList.add("capsON");
-  } else {
-    keyboard.querySelector(".key-capslock").classList.remove("capsON");
-  }
-}
-function enterHandler(position) {
-  textArea.value =
-    textArea.value.slice(0, position) +
-    String.fromCharCode(0x0d) +
-    textArea.value.slice(position, textArea.value.length);
-  textArea.setSelectionRange(position + 1, position + 1);
-}
-
-function shiftHandler() {
-  capsLock = false;
-  shift = !shift;
-  redrawKeyboard();
-  if (shift) {
-    keyboard.querySelector(".key-shift").classList.add("capsON");
-  } else {
-    keyboard.querySelector(".key-shift").classList.remove("capsON");
-  }
-}
-
-// Create keys button
-
-function createKeysButton(keys, row) {
-  keys.map((key) => {
-    const keyButton = document.createElement("div");
-    keyButton.classList = `keyboard__button key-${key.lowerCase.toLowerCase()}`;
-    keyButton.textContent = capsLock || shift ? key.upperCase : key.lowerCase;
-
-    keyButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      position = textArea.selectionStart;
-      textArea.focus();
-
-      console.log(event.target.textContent);
-
-      if (event.target.textContent.length == 1) {
-        charHandler(event.target, position);
-      } else if (event.target.textContent == "Backspace") {
-        backspaceHandler(position);
-      } else if (event.target.textContent == "Tab") {
-        tabHandler(position);
-      } else if (event.target.textContent == "Del") {
-        delHandler(position);
-      } else if (event.target.textContent == "CapsLock") {
-        capsLockHandler();
-      } else if (event.target.textContent == "Shift") {
-        shiftHandler();
-      } else if (event.target.textContent == "Enter") {
-        enterHandler(position);
-      }
-
-      if (event.target.textContent != "Shift") {
-        if (shift) {
-          shift = false;
-          redrawKeyboard();
-        }
-      }
-    });
-
-    row.appendChild(keyButton);
-  });
-}
-
-// Create button rows
-
-function createKeysRow(keysRow) {
-  const row = document.createElement("div");
-  row.className = "keyboard__row";
-  createKeysButton(keysRow, row);
-  keysContainer.appendChild(row);
-}
-
-function drawKeyboard() {
-  createKeysRow(keysFirstRow);
-  createKeysRow(keysSecondRow);
-  createKeysRow(keysThirdRow);
-  createKeysRow(keysFourthRow);
-  createKeysRow(keysFifthRow);
-  page.appendChild(keyboard);
-}
-
-function redrawKeyboard() {
-  const rows = keysContainer.querySelectorAll(".keyboard__row");
-  rows.forEach((row) => {
-    keysContainer.removeChild(row);
-  });
-  drawKeyboard();
-}
-
-drawKeyboard();
+let currentKeyboard = new KeyBoard("Eng", keysLanguage).create();
 
 // Add real keyboard event listeners
 
 addEventListener("keydown", (event) => {
+  console.log(event);
   position = textArea.selectionStart;
 
-  // console.log(event);
-  // console.log(event.key);
-
   event.preventDefault();
-
   textArea.focus();
 
-  let keyValue = "";
-  let location = 1;
+  currentKeyboard.trueKeyboard(event.code, event.key);
 
-  if (event.key == "ArrowUp") {
-    keyValue = "▲";
-    arrowHandler("▲", position);
-  } else if (event.key == "ArrowDown") {
-    keyValue = "▼";
-    arrowHandler("▼", position);
-  } else if (event.key == "ArrowLeft") {
-    keyValue = "◄";
-    arrowHandler("◄", position);
-  } else if (event.key == "ArrowRight") {
-    keyValue = "►";
-    arrowHandler("►", position);
-  } else if (event.key == "Meta") {
-    keyValue = "win";
-  } else if (event.key == "Delete") {
-    keyValue = "del";
-  } else if (event.key == "Alt") {
-    keyValue = "alt";
-    location = event.location;
-  } else if (event.key == "Shift") {
-    keyValue = "shift";
-    location = event.location;
-  } else if (event.key == "Control") {
-    keyValue = "ctrl";
-    location = event.location;
-  } else {
-    keyValue = event.key.toLowerCase();
-  }
-
-  if (event.key.length == 1) {
-    const key = keyboard.querySelector(`.key-${keyValue}`);
-
-    charHandler(key, position);
-  }
-
-  if (keyValue == "shift" || keyValue == "alt" || keyValue == "ctrl") {
-    const activeButton = keyboard.querySelectorAll(`.key-${keyValue}`);
-    activeButton[location - 1].classList.add("active");
-  } else {
-    const activeButton = keyboard.querySelector(`.key-${keyValue}`);
-    activeButton.classList.add("active");
-  }
-
-  if (keyValue == "ctrl" && keyValue == "alt") {
+  if (event.altKey && event.ctrlKey) {
     console.log(currentLang);
     if (currentLang == "ENG") {
       currentLang = "RUS";
     } else {
       currentLang = "ENG";
     }
-  }
+    localStorage.setItem("lang", currentLang);
+    infoLang.textContent = `Current language: ${currentLang}`;
 
-  if (event.key == "Tab") {
-    tabHandler(position);
-  }
-  //TODO real Caps wors independently from virtual
-  if (event.key == "CapsLock") {
-    capsLockHandler();
-  }
+    keysLanguage = currentLang == "ENG" ? [...engKeys] : [...rusKeys];
 
-  //TODO while shift down virtual keyboard in upper case
+    currentKeyboard.delete();
+    currentKeyboard = new KeyBoard("", keysLanguage).create();
+  }
 });
 
-addEventListener("keyup", (event) => {
-  if (event.key != "CapsLock") {
-    const activeButton = keyboard.querySelector(".active");
-    activeButton.classList.remove("active");
-  }
-});
+addEventListener("keyup", (event) => {});
