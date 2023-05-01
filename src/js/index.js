@@ -297,7 +297,8 @@ class KeyBoard {
     if (!key) {
       return;
     }
-    key.handleClick();
+    const trueKey = true;
+    key.handleClick(trueKey);
   }
 
   shift() {
@@ -363,7 +364,7 @@ class Key {
     return this;
   }
 
-  handleClick() {
+  handleClick(trueKey = false) {
     this.key.classList.add("active");
     const position = textArea.selectionStart;
     textArea.focus();
@@ -391,9 +392,11 @@ class Key {
         }
       }
     }
-    setTimeout(() => {
-      this.key.classList.remove("active");
-    }, 100);
+    if (!trueKey) {
+      setTimeout(() => {
+        this.key.classList.remove("active");
+      }, 100);
+    }
   }
 
   switchCase(upperCase = false) {
@@ -520,8 +523,10 @@ addEventListener("keydown", (event) => {
 
     keysLanguage = currentLang == "ENG" ? [...engKeys] : [...rusKeys];
 
-    currentKeyboard.delete();
-    currentKeyboard = new KeyBoard("", keysLanguage).create();
+    setTimeout(() => {
+      currentKeyboard.delete();
+      currentKeyboard = new KeyBoard("", keysLanguage).create();
+    }, 200);
   }
 });
 
@@ -530,9 +535,13 @@ addEventListener("keyup", (event) => {
   if (
     (event.code == "ShiftLeft" && currentKeyboard.shiftOn) ||
     (event.code == "ShiftRight" && currentKeyboard.shiftOn)
-  )
+  ) {
     currentKeyboard.shift();
-
-  // console.log(event);
-  //   event.target.classList.remove("active");
+  }
+  const activeKeys = document.querySelectorAll(".active");
+  console.log(activeKeys);
+  activeKeys.forEach((key) => {
+    console.log(key);
+    if (key.classList[-1] != "key-capslock") key.classList.remove("active");
+  });
 });
