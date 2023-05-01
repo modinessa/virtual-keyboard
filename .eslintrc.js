@@ -3,11 +3,16 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["airbnb-base"],
+  extends: ['airbnb-base'],
   overrides: [],
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  rules: {},
+  rules: {
+    'class-methods-use-this': 'off',
+    'max-classes-per-file': ['error', { ignoreExpressions: true, max: 2 }],
+    'no-restricted-globals': 'off',
+    'no-restricted-syntax': 'off',
+  },
 };
