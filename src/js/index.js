@@ -290,20 +290,18 @@ class KeyBoard {
     });
   }
 
-  // change letter to keycode and update json to have it
-  // map keys should be keycode to handle repeated buttons
   trueKeyboard(keyCode, letter) {
-    console.log(this.keys.get(keyCode));
+    // console.log(this.keys.get(keyCode));
     let key = this.keys.get(keyCode) || this.keys.get(letter.toLowerCase());
-    console.log(key);
+
     if (!key) {
       return;
     }
     key.handleClick();
   }
 
-  shift(shiftOn = true) {
-    this.shiftOn = shiftOn;
+  shift() {
+    this.shiftOn = !this.shiftOn;
     this.capslockOn = false;
     this.switchCase();
   }
@@ -467,7 +465,7 @@ infoOS.textContent = "This keyboard was made for Windows";
 
 const infoSwitchLang = document.createElement("p");
 infoSwitchLang.className = "info";
-infoSwitchLang.textContent = "To switch language press: Ctrl + Alt";
+infoSwitchLang.textContent = "To switch language press: left Ctrl + left Alt";
 
 const infoLang = document.createElement("p");
 infoLang.className = "info";
@@ -496,16 +494,22 @@ let currentKeyboard = new KeyBoard("Eng", keysLanguage).create();
 // Add real keyboard event listeners
 
 addEventListener("keydown", (event) => {
-  console.log(event);
+  // console.log(event);
   position = textArea.selectionStart;
 
   event.preventDefault();
   textArea.focus();
 
+  if (
+    (event.code == "ShiftLeft" && currentKeyboard.shiftOn) ||
+    (event.code == "ShiftRight" && currentKeyboard.shiftOn)
+  ) {
+    currentKeyboard.shift();
+  }
+
   currentKeyboard.trueKeyboard(event.code, event.key);
 
-  if (event.altKey && event.ctrlKey) {
-    console.log(currentLang);
+  if (event.altKey && event.ctrlKey && event.location == 1) {
     if (currentLang == "ENG") {
       currentLang = "RUS";
     } else {
@@ -521,4 +525,14 @@ addEventListener("keydown", (event) => {
   }
 });
 
-addEventListener("keyup", (event) => {});
+addEventListener("keyup", (event) => {
+  event.preventDefault();
+  if (
+    (event.code == "ShiftLeft" && currentKeyboard.shiftOn) ||
+    (event.code == "ShiftRight" && currentKeyboard.shiftOn)
+  )
+    currentKeyboard.shift();
+
+  // console.log(event);
+  //   event.target.classList.remove("active");
+});
