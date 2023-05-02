@@ -41,19 +41,45 @@ virtualKeyboard.appendChild(keysContainer);
 // Create keys set
 
 const engKeys = [
-  { lowerCase: '`', upperCase: '~', row: 1 },
-  { lowerCase: '1', upperCase: '!', row: 1 },
-  { lowerCase: '2', upperCase: '@', row: 1 },
-  { lowerCase: '3', upperCase: '#', row: 1 },
-  { lowerCase: '4', upperCase: '$', row: 1 },
-  { lowerCase: '5', upperCase: '%', row: 1 },
-  { lowerCase: '6', upperCase: '^', row: 1 },
-  { lowerCase: '7', upperCase: '&', row: 1 },
-  { lowerCase: '8', upperCase: '*', row: 1 },
-  { lowerCase: '9', upperCase: '(', row: 1 },
-  { lowerCase: '0', upperCase: ')', row: 1 },
-  { lowerCase: '-', upperCase: '_', row: 1 },
-  { lowerCase: '=', upperCase: '+', row: 1 },
+  {
+    lowerCase: '`', upperCase: '`', shift: '~', row: 1,
+  },
+  {
+    lowerCase: '1', upperCase: '1', shift: '!', row: 1,
+  },
+  {
+    lowerCase: '2', upperCase: '2', shift: '@', row: 1,
+  },
+  {
+    lowerCase: '3', upperCase: '3', shift: '#', row: 1,
+  },
+  {
+    lowerCase: '4', upperCase: '4', shift: '$', row: 1,
+  },
+  {
+    lowerCase: '5', upperCase: '5', shift: '%', row: 1,
+  },
+  {
+    lowerCase: '6', upperCase: '6', shift: '^', row: 1,
+  },
+  {
+    lowerCase: '7', upperCase: '7', shift: '&', row: 1,
+  },
+  {
+    lowerCase: '8', upperCase: '8', shift: '*', row: 1,
+  },
+  {
+    lowerCase: '9', upperCase: '9', shift: '(', row: 1,
+  },
+  {
+    lowerCase: '0', upperCase: '0', shift: ')', row: 1,
+  },
+  {
+    lowerCase: '-', upperCase: '-', shift: '_', row: 1,
+  },
+  {
+    lowerCase: '=', upperCase: '=', shift: '+', row: 1,
+  },
   { lowerCase: 'Backspace', upperCase: 'Backspace', row: 1 },
   { lowerCase: 'Tab', upperCase: 'Tab', row: 2 },
   {
@@ -118,19 +144,22 @@ const engKeys = [
   },
   {
     lowerCase: '[',
-    upperCase: '{',
+    upperCase: '[',
+    shift: '{',
     row: 2,
     keyCode: 'BracketLeft',
   },
   {
     lowerCase: ']',
-    upperCase: '}',
+    upperCase: ']',
+    shift: '}',
     row: 2,
     keyCode: 'BracketRight',
   },
   {
     lowerCase: '\\',
-    upperCase: '|',
+    upperCase: '\\',
+    shift: '|',
     row: 2,
     keyCode: 'Backslash',
   },
@@ -202,13 +231,15 @@ const engKeys = [
   },
   {
     lowerCase: ';',
-    upperCase: ':',
+    upperCase: ';',
+    shift: ':',
     row: 3,
     keyCode: 'Semicolon',
   },
   {
     lowerCase: "'",
-    upperCase: '"',
+    upperCase: "'",
+    shift: '"',
     row: 3,
     keyCode: 'Quote',
   },
@@ -264,19 +295,22 @@ const engKeys = [
   },
   {
     lowerCase: ',',
-    upperCase: '<',
+    upperCase: ',',
+    shift: '<',
     row: 4,
     keyCode: 'Comma',
   },
   {
     lowerCase: '.',
-    upperCase: '>',
+    upperCase: '.',
+    shift: '>',
     row: 4,
     keyCode: 'Period',
   },
   {
     lowerCase: '/',
-    upperCase: '?',
+    upperCase: '/',
+    shift: '?',
     row: 4,
     keyCode: 'Slash',
   },
@@ -351,18 +385,42 @@ const engKeys = [
 
 const rusKeys = [
   { lowerCase: 'ё', upperCase: 'Ё', row: 1 },
-  { lowerCase: '1', upperCase: '!', row: 1 },
-  { lowerCase: '2', upperCase: '"', row: 1 },
-  { lowerCase: '3', upperCase: '№', row: 1 },
-  { lowerCase: '4', upperCase: ';', row: 1 },
-  { lowerCase: '5', upperCase: '%', row: 1 },
-  { lowerCase: '6', upperCase: ':', row: 1 },
-  { lowerCase: '7', upperCase: '?', row: 1 },
-  { lowerCase: '8', upperCase: '*', row: 1 },
-  { lowerCase: '9', upperCase: '(', row: 1 },
-  { lowerCase: '0', upperCase: ')', row: 1 },
-  { lowerCase: '-', upperCase: '_', row: 1 },
-  { lowerCase: '=', upperCase: '+', row: 1 },
+  {
+    lowerCase: '1', upperCase: '1', shift: '!', row: 1,
+  },
+  {
+    lowerCase: '2', upperCase: '2', shift: '@', row: 1,
+  },
+  {
+    lowerCase: '3', upperCase: '3', shift: '#', row: 1,
+  },
+  {
+    lowerCase: '4', upperCase: '4', shift: '$', row: 1,
+  },
+  {
+    lowerCase: '5', upperCase: '5', shift: '%', row: 1,
+  },
+  {
+    lowerCase: '6', upperCase: '6', shift: '^', row: 1,
+  },
+  {
+    lowerCase: '7', upperCase: '7', shift: '&', row: 1,
+  },
+  {
+    lowerCase: '8', upperCase: '8', shift: '*', row: 1,
+  },
+  {
+    lowerCase: '9', upperCase: '9', shift: '(', row: 1,
+  },
+  {
+    lowerCase: '0', upperCase: '0', shift: ')', row: 1,
+  },
+  {
+    lowerCase: '-', upperCase: '-', shift: '_', row: 1,
+  },
+  {
+    lowerCase: '=', upperCase: '=', shift: '+', row: 1,
+  },
   { lowerCase: 'Backspace', upperCase: 'Backspace', row: 1 },
   { lowerCase: 'Tab', upperCase: 'Tab', row: 2 },
   {
@@ -439,7 +497,8 @@ const rusKeys = [
   },
   {
     lowerCase: '\\',
-    upperCase: '/',
+    upperCase: '\\',
+    shift: '/',
     row: 2,
     keyCode: 'Backslash',
   },
@@ -585,7 +644,8 @@ const rusKeys = [
   },
   {
     lowerCase: '.',
-    upperCase: ',',
+    upperCase: '.',
+    shift: ',',
     row: 4,
     keyCode: 'Slash',
   },
@@ -665,15 +725,18 @@ class Key {
 
   upperCase;
 
+  shift;
+
   keyboard;
 
   key = null;
 
   noHandle;
 
-  constructor(lowerCase, upperCase, noHanle, keyboard) {
+  constructor(lowerCase, upperCase, shift, noHanle, keyboard) {
     this.lowerCase = lowerCase;
     this.upperCase = upperCase;
+    this.shift = shift;
     this.keyboard = keyboard;
     this.noHandle = noHanle;
   }
@@ -727,8 +790,16 @@ class Key {
     }
   }
 
-  switchCase(upperCase = false) {
-    this.key.textContent = upperCase ? this.upperCase : this.lowerCase;
+  switchCase({ shiftOn = false, capslockOn = false }) {
+    const upperCase = shiftOn || capslockOn;
+
+    if (upperCase) {
+      if (shiftOn) {
+        this.key.textContent = this.shift ? this.shift : this.upperCase;
+      } else {
+        this.key.textContent = this.upperCase;
+      }
+    } else this.key.textContent = this.lowerCase;
   }
 
   arrowHandler(arrow, position) {
@@ -816,11 +887,12 @@ class KeyBoard {
     const row = document.createElement('div');
     row.className = 'keyboard__row';
     for (const {
-      lowerCase, upperCase, props, keyCode,
+      lowerCase, upperCase, props, shift, keyCode,
     } of keys) {
       const key = new Key(
         lowerCase,
         upperCase,
+        shift,
         props ? props.noHandle : false,
         this,
       ).create(row);
@@ -881,7 +953,7 @@ class KeyBoard {
     }
 
     for (const key of this.keys.values()) {
-      key.switchCase(this.capslockOn || this.shiftOn);
+      key.switchCase({ capslockOn: this.capslockOn, shiftOn: this.shiftOn });
     }
   }
 }
